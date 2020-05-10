@@ -14,15 +14,9 @@ namespace KruskalMazeGenerator
             Width = 1100;
             Height = 720;
             buttonSave.Enabled = false;
-
         }
-
-        private int Xmin, Ymin;
-        private Node[,] grid;
-        private Color lineColor = Color.White;
-        public int lineWid = 1;
-        //private int CellSize;
-
+        Color lineColor = Color.White;
+        int lineWid = 1;
         private void tsmiLineColor_Click(object sender, EventArgs e)//зміна кольору лінії
         {
             ColorDialog cd = new ColorDialog();
@@ -65,9 +59,9 @@ namespace KruskalMazeGenerator
             int width = int.Parse(chooseWidth.Text);
             int height = int.Parse(chooseHeight.Text);
             int CellSize = int.Parse(chooseCellSize.Text);
-            Xmin = (mazePic.ClientSize.Width - width * CellSize) / 2;
-            Ymin = (mazePic.ClientSize.Height - height * CellSize) / 2;
-            grid = MazeController.MazeNodes(width, height, Ymin, Xmin, CellSize);
+            int Xmin = (mazePic.ClientSize.Width - width * CellSize) / 2;
+            int Ymin = (mazePic.ClientSize.Height - height * CellSize) / 2;
+            Node[,] grid = MazeController.MazeNodes(width, height, Ymin, Xmin, CellSize);
             MazeController.KruskalMST(grid[0,0]);
             mazePic.Image = MazeController.DisplayMaze(grid, mazePic.Width, mazePic.Height, lineColor, lineWid);
         }
