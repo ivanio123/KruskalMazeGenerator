@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace KruskalMazeGenerator
@@ -61,9 +60,9 @@ namespace KruskalMazeGenerator
             int CellSize = int.Parse(chooseCellSize.Text);
             int Xmin = (mazePic.ClientSize.Width - width * CellSize) / 2;
             int Ymin = (mazePic.ClientSize.Height - height * CellSize) / 2;
-            Node[,] grid = MazeController.MazeNodes(width, height, Ymin, Xmin, CellSize);
-            MazeController.KruskalMST(grid[0,0]);
-            mazePic.Image = MazeController.DisplayMaze(grid, mazePic.Width, mazePic.Height, lineColor, lineWid);
+            Node[,] grid = MazeGenerator.MazeNodes(width, height, Ymin, Xmin, CellSize);
+            MazeGenerator.KruskalMST(grid[0,0]);
+            mazePic.Image = MazeGenerator.DisplayMaze(grid, mazePic.Width, mazePic.Height, lineColor, lineWid);
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace KruskalMazeGenerator
 {
@@ -17,7 +14,7 @@ namespace KruskalMazeGenerator
             To = to;
         }
     }
-    class MazeController
+    class MazeGenerator
     {
         public static Node[,] MazeNodes(int width, int height, int Ymin, int Xmin, int CellSize)
         {
