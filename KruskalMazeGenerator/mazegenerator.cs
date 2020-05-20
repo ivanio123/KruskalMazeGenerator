@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 
 
-namespace KruskalMazeGenerator
+namespace MazeGenerator
 {
-    class TreeLink//шлях між клітинками
+    class TreeLink
     {
         public Node From, To;
-        public TreeLink(Node from, Node to)//створення шляху між вузлами from і to
+        public TreeLink(Node from, Node to)//описує вузол та сусід вузла
         {
             From = from;
             To = to;
         }
     }
-    class MazeGenerator
+    class MazeGenerator//створення шляху між вузлами from і to//шлях між клітинками
     {
         public static Node[,] MazeNodes(int width, int height, int Ymin, int Xmin, int CellSize)
         {
@@ -46,36 +47,36 @@ namespace KruskalMazeGenerator
             }
             return grid;
         }
-        public static void KruskalMST(Node root)//метод знаходження мінімального остовного дерева
+        public static void MST(Node root)//метод знаходження мінімального остовного дерева
         {
             Random rand = new Random();
-            List<TreeLink> pathList = new List<TreeLink>();
+            List<TreeLink> pathList = new List<TreeLink>();//колекція, у якій зберігається поточна клітинка та сусідні їй
             foreach (Node neighbor in root.nodeNeighbors)
             {
                 if (neighbor != null)
-                    pathList.Add(new TreeLink(root, neighbor));
+                    pathList.Add(new TreeLink(root, neighbor));//додається пара: поточний вузол та сусід
             }
             
-            while (pathList.Count > 0)
+            while (pathList.Count > 0)//поки існують незадіяні клітини
             {
                 int linkNum = rand.Next(0, pathList.Count);
                 TreeLink link = pathList[linkNum];
-                pathList.RemoveAt(linkNum);
+                pathList.RemoveAt(linkNum);//обирається випадковий сусід клітинки, ця пара видаляється зі списку
                
-                Node end_node = link.To;//створюємо кінцевий вузол до шляху
-                link.To.Parent = link.From;//попередній вузол стає батьківським для даного, тобто проклали шлях між двома вузлами, і так кожну ітерацію циклу
+                Node end_node = link.To;
+                link.To.Parent = link.From;//занесення сусідньої клітинки до дерева, її призначення як поточної
 
                 foreach (Node neighbor in end_node.nodeNeighbors)
                 {
-                    if ((neighbor != null) && (neighbor.Parent == null))//перебираємо усіх сусідів вузла, якщо вони існують та ще не задіяні у шляху, то додаємо до шляху 
+                    if ((neighbor != null) && (neighbor.Parent == null)) 
                     {
-                        pathList.Add(new TreeLink(end_node, neighbor));
+                        pathList.Add(new TreeLink(end_node, neighbor));//шукає сусідів поточної клітинки
                     }
                 }
             }
         }
 
-        public static Bitmap DisplayMaze(Node[,] grid, int picWidth, int picHeight, Color color, int lineWidth)//метод, що відповідає за виведення зображення лабіринта
+        public static Bitmap DisplayMaze(Node[,] grid, int picWidth, int picHeight, Color color, int lineWidth)//метод, що відповідає за виведення зображення лабіринта//створюємо кінцевий вузол до шляху//попередній вузол стає батьківським для даного, тобто проклали шлях між двома вузлами, і так кожну ітерацію циклу//перебираємо усіх сусідів вузла, якщо вони існують та ще не задіяні у шляху, то додаємо до шляху
         {
 
             Pen pen = new Pen(color, lineWidth);
@@ -86,21 +87,15 @@ namespace KruskalMazeGenerator
             int count = 0; 
             using (Graphics gr = Graphics.FromImage(bm))
             {
-                gr.Clear(Color.FromArgb(25, 35, 35));//створення фону лабіринта
                 for (int i = 0; i < height; i++)
                 {
                     for (int j = 0; j < width; j++)
                     {
-                        if ((i == 0 && j == 0) || (i == height - 1 && j == width - 1))
+                       pen.Color = color;
+                        if (count % 17 == rand && i != 0 && i != height - 1 && j != 0 && j != width - 1) // випадково обирається стіна
                         {
-                            if (pen.Color != Color.Red) pen.Color = Color.OrangeRed;
-                            else pen.Color = Color.BlueViolet;
-
+                            pen.Color = Color.FromArgb(25, 35, 35); //колір стіни стає кольором фону
                         }
-                        else pen.Color = color;
-
-                        if( count%17 == rand && i!=0 && i!= height - 1 && j!=0 && j!= width-1) // випадково обирається стіна
-                            pen.Color = Color.FromArgb(25,35,35); //колір стіни стає кольором фону
                         grid[i, j].DrawWalls(gr, pen);//перехід до методу, що визначає, які стіни малювати
                         count++; 
 
@@ -154,6 +149,53 @@ namespace KruskalMazeGenerator
                     break;
             }
         }
+    }
+    public class Asciiimage
+    {
+        public static string ConvertToAscii(Bitmap image)//метод переведення зображення у набір символів
 
+        {
+            Boolean toggle = false;
+            StringBuilder sb = new StringBuilder();
+            for (int h = 0; h < image.Height; h++)
+            {
+                for (int w = 0; w < image.Width; w++)
+                {
+                    Color pixelColor = image.GetPixel(w, h);
+                    int red = (pixelColor.R + pixelColor.G + pixelColor.B) / 3;
+                    int green = (pixelColor.R + pixelColor.G + pixelColor.B) / 3;
+                    int blue = (pixelColor.R + pixelColor.G + pixelColor.B) / 3;
+                    Color grayColor = Color.FromArgb(red, green, blue);//перетворення у чорно-білий
+                    if (!toggle)
+                    {
+                        int index = (grayColor.R * _AsciiChars.Length - 1) / 255;//шукає та порівнює відтінок сірого з елементами масиву
+                        sb.Append(_AsciiChars[index]);
+                    }
+                }
+                if (!toggle)
+                {
+                    sb.Append("\n");
+                    toggle = true;
+                }
+                else
+                {
+                    toggle = false;
+                }
+            }
+            sb.Replace('#', ' ');
+            return sb.ToString();
+        }
+        private static string[] _AsciiChars = { "#", "#", "@", "%", "=", "+", "*", ":", "-", "."};//масив символів, які використовуються для відображення
+        public static Bitmap GetReSizedImage(Bitmap inputBitmap, int asciiWidth)//метод, у якому пропорційно зменшується розмір зображення 
+        {
+            int asciiHeight = (int)Math.Ceiling((double)inputBitmap.Height * asciiWidth / inputBitmap.Width);
+            Bitmap result = new Bitmap(asciiWidth, asciiHeight);
+            Graphics gr = Graphics.FromImage((Image)result);
+            gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            gr.DrawImage(inputBitmap, 0, 0, asciiWidth, asciiHeight);
+            gr.Dispose();
+            return result;
+
+        }
     }
 }

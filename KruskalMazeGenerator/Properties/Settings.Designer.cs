@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KruskalMazeGenerator.Properties
+namespace MazeGenerator.Properties
 {
 
 

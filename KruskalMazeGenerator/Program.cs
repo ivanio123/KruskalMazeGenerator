@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace KruskalMazeGenerator
+namespace MazeGenerator
 {
     static class Program
     {

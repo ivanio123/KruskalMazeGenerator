@@ -1,4 +1,4 @@
-﻿namespace KruskalMazeGenerator
+﻿namespace MazeGenerator
 {
     partial class FormMain
     {
@@ -44,16 +44,16 @@
             this.tsmi9 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi10 = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlContent = new System.Windows.Forms.Panel();
+            this.btnSaveAsAscii = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.chooseCellSize = new System.Windows.Forms.NumericUpDown();
             this.buttonCreate = new System.Windows.Forms.Button();
             this.chooseHeight = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.chooseWidth = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.mazePic = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             this.pnlContent.SuspendLayout();
@@ -89,7 +89,7 @@
             // 
             this.tsmiLineColor.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tsmiLineColor.Name = "tsmiLineColor";
-            this.tsmiLineColor.Size = new System.Drawing.Size(224, 26);
+            this.tsmiLineColor.Size = new System.Drawing.Size(188, 26);
             this.tsmiLineColor.Text = "Колір лінії";
             this.tsmiLineColor.Click += new System.EventHandler(this.tsmiLineColor_Click);
             // 
@@ -108,7 +108,7 @@
             this.tsmi9,
             this.tsmi10});
             this.tsmiLineWidthMenu.Name = "tsmiLineWidthMenu";
-            this.tsmiLineWidthMenu.Size = new System.Drawing.Size(224, 26);
+            this.tsmiLineWidthMenu.Size = new System.Drawing.Size(188, 26);
             this.tsmiLineWidthMenu.Text = "Товщина лінії";
             // 
             // tsmi1
@@ -186,8 +186,8 @@
             // pnlContent
             // 
             this.pnlContent.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlContent.Controls.Add(this.btnSaveAsAscii);
             this.pnlContent.Controls.Add(this.label5);
-            this.pnlContent.Controls.Add(this.buttonSave);
             this.pnlContent.Controls.Add(this.chooseCellSize);
             this.pnlContent.Controls.Add(this.buttonCreate);
             this.pnlContent.Controls.Add(this.chooseHeight);
@@ -205,6 +205,19 @@
             this.pnlContent.Size = new System.Drawing.Size(1340, 792);
             this.pnlContent.TabIndex = 1;
             // 
+            // btnSaveAsAscii
+            // 
+            this.btnSaveAsAscii.BackColor = System.Drawing.Color.Transparent;
+            this.btnSaveAsAscii.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveAsAscii.Font = new System.Drawing.Font("Century Gothic", 10.8F);
+            this.btnSaveAsAscii.Location = new System.Drawing.Point(1068, 103);
+            this.btnSaveAsAscii.Name = "btnSaveAsAscii";
+            this.btnSaveAsAscii.Size = new System.Drawing.Size(308, 43);
+            this.btnSaveAsAscii.TabIndex = 22;
+            this.btnSaveAsAscii.Text = "Зберегти у .txt";
+            this.btnSaveAsAscii.UseVisualStyleBackColor = false;
+            this.btnSaveAsAscii.Click += new System.EventHandler(this.saveAsAscii_Click);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -217,20 +230,6 @@
             this.label5.Size = new System.Drawing.Size(168, 23);
             this.label5.TabIndex = 21;
             this.label5.Text = "Розмір клітинки";
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.BackColor = System.Drawing.Color.Transparent;
-            this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSave.Location = new System.Drawing.Point(1068, 89);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(308, 43);
-            this.buttonSave.TabIndex = 19;
-            this.buttonSave.Text = "Зберегти зображення ";
-            this.buttonSave.UseVisualStyleBackColor = false;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // chooseCellSize
             // 
@@ -248,7 +247,7 @@
             this.chooseCellSize.TabIndex = 14;
             this.chooseCellSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.chooseCellSize.Value = new decimal(new int[] {
-            15,
+            25,
             0,
             0,
             0});
@@ -342,6 +341,17 @@
             this.label1.TabIndex = 17;
             this.label1.Text = "Висота лабіринту";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::MazeGenerator.Properties.Resources.icon;
+            this.pictureBox2.Location = new System.Drawing.Point(11, 19);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(89, 75);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 15;
+            this.pictureBox2.TabStop = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -355,17 +365,6 @@
             this.label2.TabIndex = 13;
             this.label2.Text = "Генератор лабіринтів";
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::KruskalMazeGenerator.Properties.Resources.icon;
-            this.pictureBox2.Location = new System.Drawing.Point(11, 19);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(89, 75);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 15;
-            this.pictureBox2.TabStop = false;
-            // 
             // mazePic
             // 
             this.mazePic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -377,7 +376,6 @@
             this.mazePic.Name = "mazePic";
             this.mazePic.Padding = new System.Windows.Forms.Padding(4);
             this.mazePic.Size = new System.Drawing.Size(900, 602);
-            this.mazePic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.mazePic.TabIndex = 10;
             this.mazePic.TabStop = false;
             // 
@@ -422,7 +420,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox mazePic;
+        public System.Windows.Forms.PictureBox mazePic;
         private System.Windows.Forms.ToolStripMenuItem mazeAppearanceSettings;
         private System.Windows.Forms.ToolStripMenuItem tsmiLineColor;
         private System.Windows.Forms.ToolStripMenuItem tsmiLineWidthMenu;
@@ -437,8 +435,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmi9;
         private System.Windows.Forms.ToolStripMenuItem tsmi10;
         private System.Windows.Forms.NumericUpDown chooseCellSize;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnSaveAsAscii;
     }
 }
 
