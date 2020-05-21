@@ -47,30 +47,30 @@ namespace MazeGenerator
             }
             return grid;
         }
-        public static void MST(Node root)//метод знаходження мінімального остовного дерева
+        public static void MST(Node root)//метод знаходження остовного дерева
         {
             Random rand = new Random();
-            List<TreeLink> pathList = new List<TreeLink>();//колекція, у якій зберігається поточна клітинка та сусідні їй
+            List<TreeLink> pathList = new List<TreeLink>();
             foreach (Node neighbor in root.nodeNeighbors)
             {
                 if (neighbor != null)
-                    pathList.Add(new TreeLink(root, neighbor));//додається пара: поточний вузол та сусід
+                    pathList.Add(new TreeLink(root, neighbor));//до списку додається кореневий вузол та сусіди
             }
             
-            while (pathList.Count > 0)//поки існують незадіяні клітини
+            while (pathList.Count > 0)//поки існують ізольовані клітини
             {
                 int linkNum = rand.Next(0, pathList.Count);
-                TreeLink link = pathList[linkNum];
-                pathList.RemoveAt(linkNum);//обирається випадковий сусід клітинки, ця пара видаляється зі списку
+                TreeLink link = pathList[linkNum];//обирається випадковий сусід клітинки
+                pathList.RemoveAt(linkNum);//пара вершин стає ребром, видаляється зі списку і додається до дерева
                
-                Node end_node = link.To;
-                link.To.Parent = link.From;//занесення сусідньої клітинки до дерева, її призначення як поточної
+                Node end_node = link.To;//призначення кінцевої вершини ребра як поточної
+                link.To.Parent = link.From;//показуємо, що кінцева вершина вже належить до ребра  
 
                 foreach (Node neighbor in end_node.nodeNeighbors)
                 {
                     if ((neighbor != null) && (neighbor.Parent == null)) 
                     {
-                        pathList.Add(new TreeLink(end_node, neighbor));//шукає сусідів поточної клітинки
+                        pathList.Add(new TreeLink(end_node, neighbor));//шукає сусідів поточної клітинки і додає до списку, якщо цей сусід ще не є елементом ребра
                     }
                 }
             }
